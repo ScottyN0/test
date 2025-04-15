@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .navbar {
+      background: #333;
+      color: white;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 4rem auto;
+      text-align: center;
+    }
+
+    .content-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 80%;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar"><div>Story Game</div><div id="profileName">Profile ▼</div></div>
+  <div class="container">
+    <div class="content-box">
+      <h2>Settings</h2>
+      <p>Welcome, <span id="nameDisplay">Player</span></p>
+      <input type="text" id="nameInput" placeholder="Change your name" />
+      <br />
+      <button onclick="saveName()">Save Name</button>
+      <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+      <br />
+      <button onclick="goBack()">← Back</button>
+    </div>
+  </div>
+
+  <script>
+    const storedName = localStorage.getItem('playerName') || "Player";
+    document.getElementById('nameInput').value = storedName;
+    document.getElementById('nameDisplay').textContent = storedName;
+
+    function saveName() {
+      const newName = document.getElementById('nameInput').value.trim();
+      if (newName) {
+        localStorage.setItem('playerName', newName);
+        document.getElementById('nameDisplay').textContent = newName;
+        alert("Name updated!");
+      }
+    }
+
+    function goBack() {
+      window.location.href = "home.html";
+    }
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        document.body.style.background = '#ffffff';
+        document.body.style.color = '#000000';
+      } else {
+        document.body.style.background = '#f4f4f4';
+        document.body.style.color = '#000000';
+      }
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem('theme') || 'dark';
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+    }
+
+    applyTheme(localStorage.getItem('theme') || 'dark');
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      const name = localStorage.getItem('playerName') || "Player";
+      document.getElementById("profileName").textContent = name + " ▼";
+    });
+    </script>
+</body>
+</html>
